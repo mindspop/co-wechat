@@ -1,6 +1,10 @@
 language: node_js
 node_js:
-  - "4"
-  - "6"
   - "7"
-script: make test-coveralls
+before_script:
+  - npm i
+script:
+  - npm test
+notification:
+  email: false
+sudo: false
