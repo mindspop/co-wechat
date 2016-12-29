@@ -1,4 +1,4 @@
-co-wechat [![NPM version](https://badge.fury.io/js/co-wechat.png)](http://badge.fury.io/js/co-wechat) [![Build Status](https://travis-ci.org/node-webot/co-wechat.png?branch=master)](https://travis-ci.org/node-webot/co-wechat) [![Dependencies Status](https://david-dm.org/node-webot/co-wechat.png)](https://david-dm.org/node-webot/co-wechat) [![Coverage Status](https://coveralls.io/repos/node-webot/co-wechat/badge.png)](https://coveralls.io/r/node-webot/co-wechat)
+Koa2-weixin [![NPM version](https://badge.fury.io/js/koa2-weixin.png)](http://badge.fury.io/js/koa2-weixin) [![Build Status](https://travis-ci.org/mindspop/koa2-weixin.png?branch=master)](https://travis-ci.org/mindspop/koa2-weixin)
 ======
 
 微信公众平台消息接口服务中间件与API SDK
