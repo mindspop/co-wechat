@@ -3,6 +3,7 @@ sudo: false
 node_js:
   - "7"
 script:
+  - npm run eslint
   - npm test
 notification:
   email: false

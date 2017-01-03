@@ -4,6 +4,7 @@
   "description": "wechat/weixin platform for koa2",
   "main": "lib/weixin.js",
   "scripts": {
+    "eslint": "eslint lib/*",
     "test": "mocha --harmony"
   },
   "repository": {
@@ -22,7 +23,10 @@
     "koa2-wechat",
     "koa2-weixin"
   ],
-  "author": "Mindspop",
+  "author": "Mindspop <mindspop@gmail.com>",
+  "contributors": [
+    "Jackson Tian"
+  ],
   "license": "MIT",
   "dependencies": {
     "ejs": "2.5.5",
@@ -32,11 +36,16 @@
     "xml2js": "0.4.4"
   },
   "devDependencies": {
-    "chai": "3.5.0",
-    "coveralls": "2.11.15",
-    "istanbul": "0.4.5",
-    "mocha": "3.2.0",
-    "supertest": "2.0.1"
+    "babel-eslint": "^7.1.1",
+    "babel-preset-env": "^1.1.4",
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.15",
+    "eslint": "^3.12.2",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0",
+    "supertest": "^2.0.1"
   },
   "files": [
     "lib"
