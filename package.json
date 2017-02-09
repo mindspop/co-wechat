@@ -1,6 +1,6 @@
 {
   "name": "koa2-weixin",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "wechat/weixin platform for koa2",
   "main": "lib/weixin.js",
   "scripts": {
