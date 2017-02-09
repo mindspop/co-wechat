@@ -1,13 +1,13 @@
 const expect = require('chai').expect
 const querystring = require('querystring')
 const supertest = require('supertest')
-const koa = require('koa')
+const Koa = require('koa')
 
 const compiled = require('../lib/tpl').compiled
 const wxQuery = require('../lib/util').wxQuery
 const wechat = require('../lib/weixin')
 
-const app = new koa()
+const app = new Koa()
 
 function request() {
   return supertest(app.callback())
@@ -15,7 +15,7 @@ function request() {
 
 app.use(wechat('some token'))
 
-app.use(async (ctx, next) => {
+app.use(async (ctx) => {
   // 微信输入信息都在this.weixin上
   const info = ctx.state.weixin
 
@@ -24,24 +24,31 @@ app.use(async (ctx, next) => {
     ctx.body = 'hehe'
   } else if (info.MsgType === 'music') {
     ctx.body = {
-      title: '约么',
-      description: '今天天气不错',
-      musicUrl: 'www.test.com',
-      hqUrl: 'www.test2.com',
+      type: 'music',
+      content: {
+        title: '约么',
+        description: '今天天气不错',
+        musicUrl: 'www.test.com',
+        hqUrl: 'www.test2.com',
+      },
     }
   } else if (info.Event === 'location_select') {
     ctx.body = {
+      type: 'text',
       content: '这是一个位置消息事件',
     }
   } else {
-    ctx.body = [
-      {
-        title: '约么',
-        description: '今天天气不错',
-        picUrl: 'www.test.com',
-        url: 'www.test.com',
-      }
-    ]
+    ctx.body = {
+      type: 'news',
+      content: [
+        {
+          title: '约么',
+          description: '今天天气不错',
+          picUrl: 'www.test.com',
+          url: 'www.test.com',
+        },
+      ],
+    }
   }
 })
 
@@ -75,7 +82,7 @@ describe('weixin.js', function () {
     it('should be 401 with invalid signature', function (done) {
       const q = {
         timestamp: new Date().getTime(),
-        nonce: parseInt((Math.random() * 10e10), 10)
+        nonce: parseInt((Math.random() * 10e10), 10),
       }
       q.signature = 'invalid_signature'
       q.echostr = 'ping'
@@ -135,7 +142,7 @@ describe('weixin.js', function () {
       .post(`/wechat?${wxQuery()}`)
       .send(compiled(info))
       .expect(200)
-      .end(function(err, res){
+      .end(function (err, res){
         if (err) return done(err)
 
         const body = res.text.toString()
@@ -160,15 +167,15 @@ describe('weixin.js', function () {
             description: '今天天气不错',
             picUrl: 'www.test.com',
             url: 'www.test.com',
-          }
-        ]
+          },
+        ],
       }
 
       request()
       .post(`/wechat?${wxQuery()}`)
       .send(compiled(info))
       .expect(200)
-      .end(function(err, res){
+      .end(function (err, res){
         if (err) return done(err)
 
         const body = res.text.toString()
@@ -193,7 +200,7 @@ describe('weixin.js', function () {
           description: '今天天气不错',
           musicUrl: 'www.test.com',
           hqUrl: 'www.test2.com',
-        }
+        },
       }
 
       request()
@@ -247,7 +254,7 @@ describe('weixin.js', function () {
 
     // TODO: Fix
     it.skip('should ok with customer service', function (done) {
-      var info = {
+      const info = {
         sp: 'gaofushuai',
         user: 'cs',
         type: 'text',
@@ -260,7 +267,7 @@ describe('weixin.js', function () {
       .expect(200)
       .end(function(err, res){
         if (err) return done(err)
-        var body = res.text.toString()
+        const body = res.text.toString()
         body.should.include('<ToUserName><![CDATA[cs]]></ToUserName>')
         body.should.include('<FromUserName><![CDATA[gaofushuai]]></FromUserName>')
         body.should.match(/<CreateTime>\d{13}<\/CreateTime>/)
@@ -272,7 +279,7 @@ describe('weixin.js', function () {
 
     // TODO: Fix
     it.skip('should ok with transfer info to kfAccount', function(done) {
-      var info = {
+      const info = {
         sp: 'zhong',
         user: 'kf',
         type: 'text',
@@ -282,15 +289,16 @@ describe('weixin.js', function () {
       .post(`/wechat?${wxQuery()}`)
       .send(compiled(info))
       .expect(200)
-      .end(function(err, res) {
+      .end((err, res) => {
         if (err) return done(err)
-        var body = res.text.toString()
+
+        const body = res.text.toString()
         body.should.include('<ToUserName><![CDATA[kf]]></ToUserName>')
         body.should.include('<FromUserName><![CDATA[zhong]]></FromUserName>')
         body.should.match(/<CreateTime>\d{13}<\/CreateTime>/)
         body.should.include('<MsgType><![CDATA[transfer_customer_service]]></MsgType>')
         body.should.include('<KfAccount><![CDATA[test1@test]]></KfAccount>')
-        done()
+        return done()
       })
     })
   })

@@ -77,7 +77,7 @@ ctx.body = {
   type: 'image',
   content: {
     mediaId: 'mediaId',
-  }
+  },
 }
 ```
 #### 回复语音
@@ -86,7 +86,7 @@ ctx.body = {
   type: 'voice',
   content: {
     mediaId: 'mediaId',
-  }
+  },
 }
 ```
 #### 回复视频
@@ -96,28 +96,34 @@ ctx.body = {
   content: {
     mediaId: 'mediaId',
     thumbMediaId: 'thumbMediaId',
-  }
+  },
 }
 ```
 #### 回复音乐
 ```js
 ctx.body = {
-  title: '来段音乐吧',
-  description: '一无所有',
-  musicUrl: 'http://mp3.com/xx.mp3',
-  hqMusicUrl: 'http://mp3.com/xx.mp3',
+  type: 'music',
+  content: {
+    title: '来段音乐吧',
+    description: '一无所有',
+    musicUrl: 'http://mp3.com/xx.mp3',
+    hqMusicUrl: 'http://mp3.com/xx.mp3',
+  },
 }
 ```
 #### 回复图文
 ```js
-ctx.body = [
-  {
-    title: '你来我家接我吧',
-    description: '这是女神与高富帅之间的对话',
-    picurl: 'http://nodeapi.cloudfoundry.com/qrcode.jpg',
-    url: 'http://nodeapi.cloudfoundry.com/',
-  }
-]
+ctx.body = {
+  type: 'news',
+  content: [
+    {
+      title: '你来我家接我吧',
+      description: '这是女神与高富帅之间的对话',
+      picurl: 'http://nodeapi.cloudfoundry.com/qrcode.jpg',
+      url: 'http://nodeapi.cloudfoundry.com/',
+    }
+  ],
+}
 ```
 
 #### 回复空串
